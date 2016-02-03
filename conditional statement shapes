@@ -1,0 +1,43 @@
+var x;
+var y;
+var b;
+var z;
+
+function setup() {
+createCanvas(windowWidth,windowHeight);
+  x = width/2;
+  y = height/2;
+  b = width/4;
+  z = height/3; 
+  
+}
+
+function draw() {
+  noStroke();
+  fill(0, 255, 0);
+  ellipse(x, y, 30, 30);
+  
+  if(mouseX < width/2 && mouseY < height/2) {
+    fill(255, 0, 0);
+    rect(x, y, 30, 30);
+  }  
+  
+  else if(mouseX > width/2 && mouseY > height/2) {
+    fill(0, 255, 0);
+    triangle(x, y, x+20, y+20, x-20, y-20);
+  }
+  else if(mouseX < width/4 && mouseY > height/3) {
+    fill(0, 0, 255);
+    ellipse(b, z, 300, 300);
+  }
+  else if(mouseX > width/4 && mouseY < height/3) {
+    fill(255, 0, 255);
+    triangle(b, z, b*4, z*3, b+100, z+100);
+  }
+  else if(mouseX > width/2 && mouseY < height/2) {
+    background(0);
+  }
+  else if(mouseX < width/2 && mouseY > height/2) {
+    background(255);
+  }
+}
