@@ -1,0 +1,64 @@
+var x;
+var y;
+var padding;
+var circleSize;
+var xDirection;
+var yDirection;
+var speed;
+var r;
+var g;
+var b;
+var laps;
+var lapInverse;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  circleSize = 20;
+  padding = circleSize/2;
+  x = padding;
+  y = padding;
+  xDirection = 1;
+  yDirection = 0;
+  speed = map(mouseX, 0, width, 1, 10);
+  r = random(255);
+  g = random(255);
+  b = random(255);
+  laps = 0;
+}
+
+function draw() {
+  lapInverse = map(laps, 0, 100, width/2, 0);
+  fill(255,255,255);
+  stroke(0);
+  ellipse(width/2, height/2, lapInverse, lapInverse);
+  noStroke(1);
+  fill = color(r,g,b);
+  ellipse(x, y, circleSize, circleSize);
+  if (x >= (width - padding) && y <= padding){ 
+    xDirection = 0;
+    yDirection = 1;
+    r = random(255);
+  }
+  else if (x >= (width - padding) && y >= (height - padding)) {
+   xDirection = -1;
+   yDirection = 0;
+   g = random(255);
+  }
+  
+  else if (x <= padding && y >= (height - padding)) {
+    xDirection = 0;
+    yDirection = -1;
+    b = random(255);
+  }
+  
+  else if(x <= padding & y <= padding) {
+    xDirection = 1;
+    yDirection = 0;
+    r = random(255);
+    g = random(255);
+    b = random(255);
+    laps++;
+  }
+  x = x + (xDireccion * speed);
+  y = y + (yDirection * speed);
+}
