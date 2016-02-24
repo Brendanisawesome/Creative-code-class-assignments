@@ -1,0 +1,25 @@
+var x = [];
+var y = [];
+var z = [];
+
+function setup() {
+  createCanvas(windowWidth,windowHeight);
+  for(var i = 0; i < 20; i++) {
+  x.push(random(width));
+  y.push(random(height));
+  }
+}
+
+function draw() {
+  background(0);
+  fill(255);
+  for(var i = 0; i < x.length; i++) {
+    ellipse( x[i], y[i], 20, 20);
+    x[i] = x[i] - 1;
+    y[i] = y[i] + 1;
+    if( y[i] > height) {
+      y[i] = 0;
+    }
+  }
+}
+
