@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <script src="libraries/p5.js" type="text/javascript"></script>
+
+    <script src="libraries/p5.dom.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script>
+
+    <script src="sketch.js" type="text/javascript"></script>
+
+    <style>
+    #left_panel {
+      width: 20%;
+      float: left;
+    }
+    #middle_panel {
+      width: 80%;
+      float: left;
+    }
+       body {padding: 0; margin: 0;} canvas {vertical-align: top;} </style>
+  </head>
+  <body>
+  <div id="left_panel">
+      <div>
+        <input type="button" onClick="getUp()" id="upButton" value="BOOST!"/>
+      </div>
+
+      <div>
+        <input type="button" onClick="getDown()" id="downButton" value="GET DOWN!"/>
+      </div>
+      <div>
+        <input type="button" onClick="goLeft()" id="leftButton" value="TURN LEFT!"/>
+      </div>
+      <div>
+        <input type="button" onClick="goRight()" id="rightButton" value="TURN RIGHT!"/>
+      </div>
+      <div>
+        <input type="button" onClick="transformation()" id="transformationButton" value="TRANSFORM!"/>
+      </div>
+      <div>
+        <input type="button" onClick="changeColor()" id="colorButton" value="CHANGE!"/>
+      </div>
+
+  </div>
+
+  <div id="middle_panel"></div>
+
+  </div>
+  </body>
+</html>
+
+//P5JS code
+
+var canvas;
+var x;
+var y;
+var ySpeed;
+var xSpeed;
+var shape = [];
+
+function setup() {
+	canvas = createCanvas(500, 500); 
+	canvas.parent('middle_panel');
+	x = width/2;
+	y = height/2;
+	ySpeed = 0;
+	xSpeed = 0;
+	shape = 0;
+}
+
+function draw() {
+	background(0);
+	fill(255);
+	if(shape == 0){
+	  ellipse(x,y,50,50);
+	}
+	if(shape == 1){
+	  rect(x,y,50,50);
+	}
+	if(shape == 2){
+	  ellipse(x,y,50,500);
+	  ellipse(x,y,500,50);
+	}
+	y = y + ySpeed;
+	x = x + xSpeed;
+}
+
+function getUp() {
+	ySpeed = -1;
+	xSpeed = 0;
+	alert("Gettin up!");
+}
+
+function getDown() {
+	ySpeed = 1;
+	xSpeed = 0;
+	alert("Gettin down!");
+}
+
+function goLeft() {
+  xSpeed = -1;
+  ySpeed = 0;
+  alert("Turning left!")
+}
+
+function goRight() {
+  xSpeed = 1;
+  ySpeed = 0;
+  alert("Turning right!")
+}
+function transformation() {
+  shape++;
+  if(shape >= 3) {
+     shape = 0;
+  }
+}
+function changeColor() {
+  background(random(0,255),random(0,255),random(0,255));
+  fill(random(0,255),random(0,255),random(0,255));
+}
+
+
+
