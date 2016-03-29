@@ -1,0 +1,209 @@
+var splats = [];
+var marks = [];
+var drop = false;
+var strokeSize;
+var splatterSpeed;
+var strokeColor;
+var clearButton;
+var colorButton;
+
+function setup() {
+  var canvas = createCanvas(windowWidth * .8, windowHeight);
+  canvas.parent("main");
+  strokeSize = select('#strokeSize');
+  splatterSpeed = select('#splatterSpeed');
+  strokeColor = select('#strokeColor');
+  dropButton = createButton('Drop Toggle');
+  clearButton = createButton('Clear');
+  dropButton.parent("buttons");
+  clearButton.parent("butons");
+  clearButton.mousePressed(clearCanvas);
+  dropButton.mousePressed(dropDrawing);
+}
+
+function draw() {
+  background(0);
+  fill(255);
+  for (var i = 0; i < marks.length; i++) {
+    marks[i].display();
+    if (drop) {
+      marks[i].drop();
+    }
+  }
+
+  if (marks.length > 1000) {
+    marks.splice(0, 1);
+  }
+
+  if (drop) {
+    for (var i = marks.length - 1; i > 0; i--) {
+      if (marks[i].y > height) {
+        marks.splice(i, 1);
+      }
+    }
+  }
+
+
+}
+
+function mouseDragged() {
+  marks.push(new Mark(mouseX, mouseY, pmouseX, pmouseY));
+}
+
+function dropDrawing() {
+  drop = !drop;
+}
+
+function clearCanvas() {
+  marks = [];
+}
+
+// Mark class
+function Mark(x, y, px, py) {
+  this.x = x;
+  this.y = y;
+  this.px = px;
+  this.py = py;
+  this.diameter = strokeSize.value();
+
+  this.splatter = [];
+  this.color = color(strokeColor.value());
+  splats = random(1, 5);
+  for (var i = 0; i < splats; i++) {
+    var splat = new Splatter(random(x - 15, x + 15), random(y - 15, y + 15));
+    splat.setColor(this.color);
+    this.splatter.push(splat);
+  }
+
+  this.display = function() {
+    stroke(this.color);
+    strokeWeight(this.diameter);
+    line(this.x, this.y, this.px, this.py);
+
+    for (var i = 0; i < this.splatter.length; i++) {
+      this.splatter[i].display();
+      this.splatter[i].drip();
+    }
+    for (var i = this.splatter.length - 1; i > 0; i--) {
+      if (this.splatter[i].faded()) {
+        this.splatter.splice(i, 1);
+      }
+    }
+  }
+
+  this.drop = function() {
+    this.y += 1;
+    this.py += 1;
+
+    for (var i = 0; i < this.splatter.length; i++) {
+      this.splatter[i].y += 1;
+    }
+  }
+}
+  this.setColor = function(c) {
+    this.color = c;
+  }
+
+//BEGIN SPLAT OBJECT
+
+function Splatter(x, y) {
+  this.x = random(x - 5, x + 5);
+  this.y = random(y - 5, y + 5);
+  this.a = random(250);
+  this.diameter = random(1, 5);
+  this.speedX = random(splatterSpeed.value(), -splatterSpeed.value());
+  this.speedY = random(splatterSpeed.value());
+  this.color = color(255, 255, 255);
+
+  this.drip = function() {
+    this.y += this.speedY;
+    this.x += this.speedX;
+    this.speedX *= .98;
+    this.speedY *= .98;
+    this.a -= .1;
+    if (this.a <= 0) {
+      this.a = 0;
+    }
+    this.color = color(red(this.color), green(this.color), blue(this.color), this.a);
+  }
+
+  this.setColor = function(c) {
+    this.color = c;
+  
+  }
+  this.display = function() {
+    fill(this.color);
+    noStroke();
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+
+  this.offscreen = function() {
+    if (this.y > height) {
+      return true;
+    } 
+    else {
+      return false;
+    }
+  }
+
+  this.faded = function() {
+    if (this.a <= 0) {
+      return true;
+    }
+    return false;
+  }
+
+}
+
+
+
+//HTML Index
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>debug8_broken</title>
+    <script src="libraries/p5.js" type="text/javascript"></script>
+
+    <script src="libraries/p5.dom.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script>
+
+    <script src="sketch.js" type="text/javascript"></script>
+
+    <style> 
+            body {padding: 0; margin: 0;} 
+            canvas {vertical-align: top;}
+            #right_panel {
+              width: 18%;
+              float:right;
+              padding: 1%;
+            }
+            input {
+              width: 100%;
+            }
+            #main {
+              width: 80%;
+            }
+
+    </style>
+  </head>
+  <body>
+    <div id="right_panel">
+      <h5>Control Panel</h5>
+      <h6>Stroke Size</h6>
+        <input id="strokeSize" type="number" name="strokeSize" min="1" max="20" value="5">
+      <h6>Splatter Speed</h6>
+        <input id="splatterSpeed" type="number" name="splatterSpeed" min="1" max="5" value="2">
+      <h6>Stroke Color</h6>
+        <input id="strokeColor" type="color" name="strokeColor" value="#FFFFFF">
+        <br>
+        <div id="buttons">
+        </div>
+    </div>
+    <div id="main">
+      
+    </div>
+    
+  </body>
+</html>
