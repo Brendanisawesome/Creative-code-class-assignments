@@ -1,0 +1,39 @@
+var api_key = "dfd965b2605d61eb8342af83a1ecdbd8";
+var city = ["Miami"];
+var temp = 0;
+var weather = [];
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  
+  var url = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&units=imperial&APPID="+api_key;
+  loadJSON(url, receivedWeather);
+  
+}
+
+function draw() {
+    if(temp >= 75) {
+      background(232,252,10);
+      fill(252,139,10 );
+      noStroke();
+    }
+    else if(32 < temp < 75){
+      background(18,229,252);
+      fill(0,245,65);
+      noStroke();
+    }
+    else if(temp <= 32){
+      background(0,0,0);
+      fill(0,0,255);
+      noStroke();
+    }
+    ellipse(width/2, height/2, temp, temp);
+    fill(252,252,252);
+    stroke(0);
+    textSize(52);
+    text(city, windowWidth/2, 52);
+
+}
+function receivedWeather(theWeather) {
+   temp = theWeather.main.temp;
+}
