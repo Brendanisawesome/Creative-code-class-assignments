@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <script src="libraries/p5.js" type="text/javascript"></script>
+
+    <script src="libraries/p5.dom.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script>
+    <script src="libraries/p5.play.js" type="text/javascript"></script>
+
+    <script src="sketch.js" type="text/javascript"></script>
+    
+    <style>
+    #right_panel {
+      width: 20%;
+      float: right;
+    }
+    
+    <style> body {padding: 0; margin: 0;} canvas {vertical-align: top;} </style>
+  </head>
+  <body>
+    <div id="right_panel">
+      <div>
+        <select id="playlist">
+          <option value="CanYouFeelIt.mp3">Song 1</option>
+          <option value="aggromp3.mp3">Song 2</option>
+          <option value="Clarity.mp3">Song 3</option>
+          <option value="Fever Dreams.mp3">Song 4</option>
+          <option value="Rendezvous.mp3">Song 5</option>
+          <option value="Spectrum.mp3">Song 6</option>
+        </select>
+        
+      </div>
+
+      <div>
+        <input type="button" onClick="play()" id="play" value="play"/>
+      </div>
+
+      <div>
+        <input type="button" onClick="pause()" id="pause" value="pause"/>
+      </div>
+
+
+  </div>
+
+  </body>
+</html>
